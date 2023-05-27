@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "151415779065",
+    "project_id": "bookappexam",
+    "storage_bucket": "bookappexam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151415779065:android:fdfe1bad43c1f757c67c28",
+        "android_client_info": {
+          "package_name": "uz.gita.exam5bookapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151415779065-3okti6jqpeflgmsb4sm4eugsg200soq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzNiDc89_uJI0NzlFpn-DUqdy5YBWTyt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "151415779065-3okti6jqpeflgmsb4sm4eugsg200soq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav"
+    app:startDestination="@id/hostScreen">
+    <fragment
+        android:id="@+id/hostScreen"
+        android:name="uz.gita.exam5bookapp.presentation.ui.host_screen.HostScreen"
+        android:label="host_screen"
+        tools:layout="@layout/host_screen" />
+    <fragment
+        android:id="@+id/savedScreen"
+        android:name="uz.gita.exam5bookapp.presentation.ui.saved_screen.SavedScreen"
+        android:label="saved_screen"
+        tools:layout="@layout/saved_screen" />
+    <fragment
+        android:id="@+id/exploreScreen"
+        android:name="uz.gita.exam5bookapp.presentation.ui.explore_screen.ExploreScreen"
+        android:label="explore_screen"
+        tools:layout="@layout/explore_screen" />
+    <fragment
+        android:id="@+id/mainScreen"
+        android:name="uz.gita.exam5bookapp.presentation.ui.main_screen.MainScreen"
+        android:label="main_screen"
+        tools:layout="@layout/main_screen" >
+        <argument
+            android:name="data"
+            app:argType="uz.gita.exam5bookapp.data.model.common.BookData" />
+    </fragment>
+    <fragment
+        android:id="@+id/descriptionScreen"
+        android:name="uz.gita.exam5bookapp.presentation.ui.description_screen.DescriptionScreen"
+        android:label="description_screen"
+        tools:layout="@layout/description_screen" >
+        <argument
+            android:name="data"
+            app:argType="uz.gita.exam5bookapp.data.model.common.BookData" />
+        <action
+            android:id="@+id/action_descriptionScreen_to_readScreen"
+            app:destination="@id/readScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/readScreen"
+        android:name="uz.gita.exam5bookapp.presentation.ui.read_screen.ReadScreen"
+        tools:layout="@layout/read_screen"
+        android:label="ReadScreen" >
+        <argument
+            android:name="data"
+            app:argType="uz.gita.exam5bookapp.data.model.common.BookData" />
+    </fragment>
+</navigation>
