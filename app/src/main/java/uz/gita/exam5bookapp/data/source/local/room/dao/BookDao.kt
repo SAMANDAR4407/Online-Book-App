@@ -10,7 +10,7 @@ interface BookDao {
     fun getAllBooks(): List<BookEntity>
 
     @Query("SELECT * from books where saved = 1")
-    fun getAllFavBooks(): List<BookEntity>
+    fun getAllFavBooks(): Flow<List<BookEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertBooks(books: List<BookEntity>)
@@ -26,4 +26,7 @@ interface BookDao {
 
     @Query("UPDATE BOOKS SET lastPage = :lastPage where id = :bookId")
     fun updateBook(lastPage: Int, bookId: Int)
+
+    @Query("select * from books where title like '%' || :query || '%' or author like :query")
+    fun searchBook(query: String): List<BookEntity>
 }

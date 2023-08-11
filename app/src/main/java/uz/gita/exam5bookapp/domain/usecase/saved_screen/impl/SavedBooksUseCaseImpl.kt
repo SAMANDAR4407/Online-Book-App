@@ -1,8 +1,6 @@
 package uz.gita.exam5bookapp.domain.usecase.saved_screen.impl
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.*
 import uz.gita.exam5bookapp.data.model.common.BookData
 import uz.gita.exam5bookapp.data.model.toBookData
@@ -29,10 +27,12 @@ class SavedBooksUseCaseImpl private constructor(): SavedBooksUseCase{
 
     private val repository: BookRepository = BookRepositoryImpl.getInstance()
 
-    override operator fun invoke() = flow {
-        repository.getFavouriteBooksListDB().collect{
-            emit(it.map { it.toBookData() })
+    override fun invoke() = repository.getFavouriteBooksListDB().map {
+        it.map { data ->
+            data.toBookData()
         }
     }.flowOn(Dispatchers.IO)
+
+    override fun searchBook(query: String): List<BookData> = repository.getBooksByQuery(query).map { it.toBookData() }
 
 }

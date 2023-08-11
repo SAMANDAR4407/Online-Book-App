@@ -12,6 +12,7 @@ interface DescriptionViewModel {
 
     val fileDownloadedLiveData: LiveData<BookData>
     val errorDownloadLiveData: LiveData<String>
+    val progressLiveData: LiveData<Boolean>
 
     fun downloadBook(context: Context, data: BookData)
 }

@@ -50,7 +50,7 @@ class BookRepositoryImpl private constructor(private var context: Context) : Boo
         loadBooks()
     }
 
-    override suspend fun getBooksList(): Flow<List<BookResponse>> = callbackFlow<List<BookResponse>> {
+    override fun getBooksList(): Flow<List<BookResponse>> = callbackFlow<List<BookResponse>> {
         val allList = ArrayList<BookEntity>()
         booksRef.get().addOnSuccessListener {
             // category list
@@ -81,23 +81,31 @@ class BookRepositoryImpl private constructor(private var context: Context) : Boo
                 Log.d(TAG, "getBooksList: list get error, " + it.message.toString())
                 // failed
             }
-        awaitClose{}
+        awaitClose {}
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getBooksListDB(): Flow<List<BookResponse>> = flow {
+    override fun getBooksListDB(): Flow<List<BookResponse>> = flow {
         emit(dao.getAllBooks().map { it.toBookResponse() })
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getFavouriteBooksListDB(): Flow<List<BookResponse>> = flow {
-        val list = dao.getAllFavBooks().map { it.toBookResponse() }
-        Log.d("AAA", "getFavouriteBooksListDB: called ${list.size} ")
-        emit(list)
+    override fun getFavouriteBooksListDB(): Flow<List<BookResponse>> = dao.getAllFavBooks().map {
+        it.map { data ->
+            data.toBookResponse()
+        }
     }.flowOn(Dispatchers.IO)
-
 
     override suspend fun getBookListSize(): Int = _bookListSize
 
-    override suspend fun loadBook(book: BookResponse): Flow<Boolean> = callbackFlow<Boolean> {
+    override fun getBooksByQuery(query: String): List<BookResponse> {
+        val list = arrayListOf<BookResponse>()
+        dao.searchBook(query).forEach {
+            list.add(it.toBookResponse())
+        }
+        return list
+    }
+
+
+    override fun loadBook(book: BookResponse): Flow<Boolean> = callbackFlow {
         val gsReference = storage.getReferenceFromUrl(book.bookUrl)
 
         val ONE_MEGABYTE: Long = 20 * 1024 * 1024 // 20 mb limit
@@ -149,7 +157,7 @@ class BookRepositoryImpl private constructor(private var context: Context) : Boo
         }
     }
 
-    override suspend fun isBookFavouriteDB(book: BookData): Flow<Boolean> = flow {
+    override fun isBookFavouriteDB(book: BookData): Flow<Boolean> = flow {
         dao.updateBook(book.toBookEntity())
         Log.d(TAG, "book Saved is changed to:" + book.saved)
         emit(true)

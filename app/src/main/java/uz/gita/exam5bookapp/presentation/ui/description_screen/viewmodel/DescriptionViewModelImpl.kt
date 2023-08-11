@@ -18,15 +18,19 @@ import uz.gita.exam5bookapp.domain.usecase.main_screen.impl.GetAllBooksUseCaseIm
 class DescriptionViewModelImpl : DescriptionViewModel, ViewModel() {
     override val fileDownloadedLiveData = MutableLiveData<BookData>()
     override val errorDownloadLiveData = MutableLiveData<String>()
+    override val progressLiveData =MutableLiveData<Boolean>()
     private val useCase: GetAllBooksUseCase = GetAllBooksUseCaseImpl.getInstance()
 
     override fun downloadBook(context: Context, data: BookData) {
+        progressLiveData.value = true
         useCase.downloadBook(context, data)
             .onEach { result ->
                 result.onSuccess {
+                    progressLiveData.value = false
                     fileDownloadedLiveData.value = it
                 }
                 result.onFailure {
+                    progressLiveData.value = false
                     errorDownloadLiveData.value = it.message
                 }
             }.launchIn(viewModelScope)

@@ -8,5 +8,7 @@ import uz.gita.exam5bookapp.data.model.common.BookData
  */
 interface SavedBooksUseCase {
 
-    operator fun invoke(): Flow<List<BookData>>
+    fun invoke(): Flow<List<BookData>>
+
+    fun searchBook(query: String): List<BookData>
 }

@@ -10,21 +10,23 @@ import uz.gita.exam5bookapp.data.source.local.room.entity.BookEntity
 
 interface BookRepository {
 
-    suspend fun getBooksList(): Flow<List<BookResponse>>
+    fun getBooksList(): Flow<List<BookResponse>>
 
-    suspend fun getBooksListDB(): Flow<List<BookResponse>>
+    fun getBooksListDB(): Flow<List<BookResponse>>
 
-    suspend fun getFavouriteBooksListDB(): Flow<List<BookResponse>>
+    fun getFavouriteBooksListDB(): Flow<List<BookResponse>>
 
     suspend fun getBookListSize(): Int
 
-    suspend fun loadBook(book: BookResponse): Flow<Boolean>
+    fun getBooksByQuery(query: String): List<BookResponse>
+
+    fun loadBook(book: BookResponse): Flow<Boolean>
 
     suspend fun getLastPage(id: Int): Int
 
     suspend fun setLastPage(book: BookEntity)
 
-    suspend fun isBookFavouriteDB(book: BookData): Flow<Boolean>
+    fun isBookFavouriteDB(book: BookData): Flow<Boolean>
 
     fun loadBooks()
 

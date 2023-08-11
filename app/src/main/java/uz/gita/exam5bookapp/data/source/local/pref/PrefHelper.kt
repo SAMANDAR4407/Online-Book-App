@@ -31,6 +31,10 @@ class PrefHelper private constructor() {
         set(value) = shared.edit().putString("bookAuthor", value).apply()
         get() = shared.getString("bookAuthor", "")
 
+    var about: String?
+        set(value) = shared.edit().putString("about", value).apply()
+        get() = shared.getString("about", "")
+
     var bookCover: String?
         set(value) = shared.edit().putString("bookCover", value).apply()
         get() = shared.getString("bookCover", "")

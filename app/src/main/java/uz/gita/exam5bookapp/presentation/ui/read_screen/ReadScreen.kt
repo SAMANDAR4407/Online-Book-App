@@ -64,6 +64,7 @@ class ReadScreen: Fragment(R.layout.read_screen), OnPageChangeListener,
             shared.bookAuthor = data.author
             shared.bookCover = data.coverUrl
             shared.totalPage = binding.pdfViewer.pageCount
+            shared.about = data.about
             shared.pageNumber = if (shared.totalPage-pageNumber == 1) pageNumber+1 else pageNumber
         } else if (pageNumber+1 == binding.pdfViewer.pageCount) {
             shared.bookTitle = ""
@@ -71,6 +72,7 @@ class ReadScreen: Fragment(R.layout.read_screen), OnPageChangeListener,
             shared.bookCover = ""
             shared.pageNumber = 0
             shared.totalPage = 0
+            shared.about = ""
         }
     }
 

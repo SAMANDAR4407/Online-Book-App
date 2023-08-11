@@ -11,6 +11,7 @@ data class BookEntity(
     val title: String = "",
     val author: String = "",
     val genre: String = "",
+    val about: String = "",
     val page: Int = 0,
     val rate: Int = 0,
     val year: String = "",

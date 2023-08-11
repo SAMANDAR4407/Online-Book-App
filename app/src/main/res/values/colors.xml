@@ -9,8 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primary">#141C2E</color>
-    <color name="surface">#1B7695</color>
-    <color name="surfaceDark">#17637E</color>
+    <color name="surface">#D66400</color>
+    <color name="surfaceDark">#A64E00</color>
     <color name="onPrimary">#FFFFFFFF</color>
     <color name="secondary">#FFA95E</color>
     <color name="secondaryDark">#F0A157</color>

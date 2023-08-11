@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import uz.gita.exam5bookapp.data.source.local.room.entity.BookEntity
 import uz.gita.exam5bookapp.data.source.local.room.dao.BookDao
 
-@Database(entities = [BookEntity::class], version = 2)
+@Database(entities = [BookEntity::class], version = 3)
 abstract class BookDatabase: RoomDatabase() {
     abstract fun getDao(): BookDao
 

@@ -35,7 +35,6 @@ class BookListAdapter : ListAdapter<BookData, BookListAdapter.BooksViewHolder>(B
             Glide.with(binding.root.context).load(item.coverUrl).placeholder(R.drawable.img).into(binding.imgCover)
             binding.tvBookTitle.text = item.title
             binding.tvAuthor.text = item.author
-            binding.tvRate.text = item.rate.toString()
         }
     }
 

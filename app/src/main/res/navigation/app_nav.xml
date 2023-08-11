@@ -18,7 +18,11 @@
         android:id="@+id/exploreScreen"
         android:name="uz.gita.exam5bookapp.presentation.ui.explore_screen.ExploreScreen"
         android:label="explore_screen"
-        tools:layout="@layout/explore_screen" />
+        tools:layout="@layout/explore_screen" >
+        <action
+            android:id="@+id/action_exploreScreen_to_searchScreen"
+            app:destination="@id/searchScreen" />
+    </fragment>
     <fragment
         android:id="@+id/mainScreen"
         android:name="uz.gita.exam5bookapp.presentation.ui.main_screen.MainScreen"
@@ -49,4 +53,9 @@
             android:name="data"
             app:argType="uz.gita.exam5bookapp.data.model.common.BookData" />
     </fragment>
+    <fragment
+        android:id="@+id/searchScreen"
+        tools:layout="@layout/search_screen"
+        android:name="uz.gita.exam5bookapp.presentation.ui.search_screen.SearchScreen"
+        android:label="SearchScreen" />
 </navigation>

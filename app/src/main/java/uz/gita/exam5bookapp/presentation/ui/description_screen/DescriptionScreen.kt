@@ -47,11 +47,15 @@ class DescriptionScreen : Fragment(R.layout.description_screen) {
         binding.apply {
             title.text = book[1]
             author.text = book[2]
-            rating.rating = book[5].toFloat()
-            Glide.with(binding.image).load(book[8]).into(binding.image)
+            rating.rating = book[6].toFloat()
+            about.text = book[4]
+            Glide.with(binding.image).load(book[9]).into(binding.image)
 
-            if (File(book[9]).exists()){
-                btnDownload.visibility = View.GONE
+            if (File(book[10]).exists()) {
+                btnDownload.apply {
+                    setImageResource(R.drawable.trash)
+                    isEnabled = false
+                }
             }
         }
 
@@ -60,14 +64,15 @@ class DescriptionScreen : Fragment(R.layout.description_screen) {
             book[1],
             book[2],
             book[3],
-            book[4].toInt(),
+            book[4],
             book[5].toInt(),
-            book[6],
+            book[6].toInt(),
             book[7],
             book[8],
             book[9],
-            book[10].toInt(),
-            book[11].toBoolean(),
+            book[10],
+            book[11].toInt(),
+            book[12].toBoolean(),
         )
 
         binding.readBtn.setOnClickListener {
@@ -81,25 +86,25 @@ class DescriptionScreen : Fragment(R.layout.description_screen) {
 
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
-            Log.d("TTT", "onViewCreated: ${shared.totalPage}  ${shared.pageNumber}")
         }
 
         binding.btnDownload.setOnClickListener {
             storagePermission()
         }
 
-        viewModel.fileDownloadedLiveData.observe(viewLifecycleOwner){
-            binding.btnDownload.setImageResource(R.drawable.ic_downloaded)
+        viewModel.fileDownloadedLiveData.observe(viewLifecycleOwner) {
+            binding.btnDownload.setImageResource(R.drawable.trash)
+            binding.btnDownload.isEnabled = false
             Toast.makeText(requireContext(), "File downloaded!", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.errorDownloadLiveData.observe(viewLifecycleOwner){
+        viewModel.errorDownloadLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "Error!", Toast.LENGTH_SHORT).show()
-            Log.d("TTT", "Error downloading file: $it")
         }
 
-        binding.readProgress.text = if (shared.bookTitle!!.isNotBlank() && shared.bookTitle == data.title && shared.pageNumber!=1)
-                ((shared.pageNumber*100/shared.totalPage).toString()+"%") else (data.lastPage.toString()+"%")
+
+        binding.readProgress.text = if (shared.bookTitle!!.isNotBlank() && shared.bookTitle == data.title && shared.pageNumber != 1)
+            ((shared.pageNumber * 100 / shared.totalPage).toString() + "%") else (data.lastPage.toString() + "%")
 
     }
 
@@ -115,7 +120,6 @@ class DescriptionScreen : Fragment(R.layout.description_screen) {
         ) == PackageManager.PERMISSION_GRANTED
 
 
-
         val minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q           // 29
         val minSdk33 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU    // 33
 
@@ -127,8 +131,21 @@ class DescriptionScreen : Fragment(R.layout.description_screen) {
         if (!writePermission) permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
         if (permissionList.isNotEmpty()) storagePermissionLauncher.launch(permissionList.toTypedArray())
-        else  {
-            Toast.makeText(requireActivity(), "Start downloading", Toast.LENGTH_SHORT).show()
+        else {
+            Toast.makeText(requireActivity(), "Downloading", Toast.LENGTH_SHORT).show()
+
+            viewModel.progressLiveData.observe(viewLifecycleOwner) {
+                if (it){
+                    binding.btnDownload.visibility = View.GONE
+                    binding.progress.apply {
+                        visibility = View.VISIBLE
+
+                    }
+                } else {
+                    binding.btnDownload.visibility = View.VISIBLE
+                    binding.progress.visibility = View.GONE
+                }
+            }
             viewModel.downloadBook(requireActivity(), data)
         }
     }
@@ -143,8 +160,7 @@ class DescriptionScreen : Fragment(R.layout.description_screen) {
         if (permissionList.isEmpty()) {
             Toast.makeText(requireActivity(), "Start downloading", Toast.LENGTH_SHORT).show()
             viewModel.downloadBook(requireActivity(), data)
-        }
-        else Toast.makeText(requireActivity(), "Permission is denied", Toast.LENGTH_SHORT).show()
+        } else Toast.makeText(requireActivity(), "Permission is denied", Toast.LENGTH_SHORT).show()
     }
 
 

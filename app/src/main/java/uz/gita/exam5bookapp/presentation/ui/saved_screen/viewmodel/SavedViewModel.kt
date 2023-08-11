@@ -11,6 +11,4 @@ interface SavedViewModel {
 
     val savedLiveData: LiveData<List<BookData>>
 
-    fun loadBooks()
-
 }

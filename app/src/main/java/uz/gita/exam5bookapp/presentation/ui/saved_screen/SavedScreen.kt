@@ -22,21 +22,16 @@ class SavedScreen : Fragment(R.layout.saved_screen) {
     private val binding by viewBinding(SavedScreenBinding::bind)
     private val adapter = BookListAdapter()
     private val viewModel by viewModels<SaveViewModelImpl>()
-    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.savedLiveData.observe(viewLifecycleOwner) {
             Log.d("AAA", "onViewCreated: ${it.size} ")
             adapter.submitList(it)
-            binding.swiper.isRefreshing = false
         }
 
         setAdapter()
         clicks()
 
-        binding.swiper.setOnRefreshListener {
-            viewModel.loadBooks()
-        }
     }
 
     private fun setAdapter() {
@@ -45,7 +40,7 @@ class SavedScreen : Fragment(R.layout.saved_screen) {
 
     private fun clicks() {
         adapter.putReadListener {
-            val bundle = bundleOf("book" to arrayListOf(it.id.toString(), it.title, it.author, it.genre, it.page.toString(), it.rate.toString(), it.year, it.bookUrl, it.coverUrl, it.reference, it.lastPage.toString(), it.saved.toString()))
+            val bundle = bundleOf("book" to arrayListOf(it.id.toString(), it.title, it.author, it.genre, it.about, it.page.toString(), it.rate.toString(), it.year, it.bookUrl, it.coverUrl, it.reference, it.lastPage.toString(), it.saved.toString()))
             findNavController().navigate(R.id.descriptionScreen, bundle)
         }
     }
